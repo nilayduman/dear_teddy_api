@@ -1,0 +1,15 @@
+[build]
+  # Base directory (Proje ana dizini)
+  base = "."
+
+  # Publish directory (Statik dosyalar için ana dizin)
+  publish = "."
+
+[build.environment]
+  # Python versiyonunu belirtin (Netlify'de Python kullanıyorsanız)
+  PYTHON_VERSION = "3.8"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
