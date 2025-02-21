@@ -10,6 +10,9 @@ from typing import List, Dict
 # FastAPI and CORS Setup
 app = FastAPI()
 
+# "api_as" içinde bulunan statik dosyaları servis etmek için:
+app.mount("/", StaticFiles(directory="api_as", html=True), name="static")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
