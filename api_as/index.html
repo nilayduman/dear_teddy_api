@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dear Teddy!</title>
+    <style>
+        :root {
+            --primary-color: #2D2D2D;
+            --secondary-color: #6A8DFF;
+            --background-color: #F9FAFB;
+            --surface-color: #FFFFFF;
+            --border-color: #E5E7EB;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, system-ui;
+            background-color: var(--background-color);
+            scroll-behavior: smooth;
+        }
+
+        .promo-page {
+            height: 100vh;
+            background: url('7.png') no-repeat center center;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .promo-content {
+            max-width: 800px;
+            padding: 40px 20px;
+            z-index: 2;
+        }
+
+        .promo-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .promo-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .promo-button {
+            padding: 16px 36px;
+            background: white;
+            color: var(--secondary-color);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .promo-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .chat-page {
+            min-height: 100vh;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: url('8.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            position: relative;
+        }
+
+        .chat-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('8.png') no-repeat center center;
+            background-size: cover;
+            z-index: 1;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            width: 90%;
+            margin: 0 auto;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+
+        .chat-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(145deg, rgba(175,175,175,0.1) 0%, rgba(255,255,255,0.4) 100%);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .chat-header h1 {
+            margin: 0 0 5px 0;
+            font-size: 1.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .chat-header p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #6B7280;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            max-height: calc(80vh - 140px);
+            min-height: 100px;
+            position: relative;
+        }
+
+        .messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .messages::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        .messages::-webkit-scrollbar-thumb:hover {
+            background: #a0a0a0;
+        }
+
+        .message {
+            margin: 15px 0;
+            display: flex;
+            gap: 12px;
+            animation: fadeInUp 0.3s ease-out;
+            width: 100%;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bubble {
+            max-width: 75%;
+            padding: 14px 20px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 0.95em;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            transition: transform 0.1s ease;
+        }
+
+        .user-bubble {
+            background: var(--surface-color);
+            border-color: #D1D5DB;
+            margin-left: auto;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .system-bubble {
+            background: #F3F4F6;
+            border-color: #E5E7EB;
+        }
+
+        .input-area {
+            padding: 16px;
+            background: var(--surface-color);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.9em;
+            background: var(--surface-color);
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]::placeholder {
+            color: #9CA3AF;
+            font-size: 0.85em;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(106,141,255,0.15);
+        }
+
+        .send-button {
+            padding: 10px 24px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .send-button:hover {
+            background: #404040;
+            transform: translateY(-1px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: #6B7280;
+            margin-top: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-icon {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+        }
+
+        .emotion-details {
+            margin: 15px 0;
+        }
+
+        .emotion-item {
+            margin-bottom: 8px;
+        }
+
+        .emotion-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85em;
+            margin-bottom: 3px;
+        }
+
+        .emotion-bar {
+            height: 6px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .recommendation {
+            margin-top: 15px;
+            border-top: 1px solid #E5E7EB;
+            padding-top: 15px;
+        }
+
+        .recommendation ol {
+            padding-left: 20px;
+            margin: 10px 0 0 0;
+        }
+
+        .scroll-bottom {
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .scroll-bottom.visible {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .promo-title {
+                font-size: 2.5rem;
+            }
+
+            .promo-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .chat-container {
+                border-radius: 12px;
+                width: 95%;
+                height: 75vh;
+            }
+
+            .messages {
+                max-height: calc(75vh - 140px);
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="promo-page" id="promo">
+        <div class="promo-content">
+            <h1 class="promo-title">Meet Dear Teddy</h1>
+            <p class="promo-subtitle">We are developing an AI-powered emotion analysis API designed for individuals with Asperger's syndrome. Our system is still in the development phase, and we are continuously working to improve it. You are welcome to try it out—your feedback would be greatly appreciated! 💙</p>
+            <button class="promo-button" onclick="scrollToChat()">Try Me Please!</button>
+        </div>
+    </div>
+
+    <div class="chat-page" id="chat">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h1>Dear Teddy</h1>
+                <p>Your Emotional Support Companion</p>
+            </div>
+
+            <div class="messages" id="messages">
+                <div class="message">
+                    <div class="bubble system-bubble">
+                        <p>I'm here to listen and support you. How are you feeling today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <input type="text"
+                       placeholder="Type here... I am listening (Ex: 'I feel very uncomfortable in crowded places.')"
+                       id="messageInput"
+                       autocomplete="off"
+                       onkeypress="handleEnter(event)">
+                <button class="send-button" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
+        <div class="scroll-bottom" id="scrollBottom" onclick="scrollToBottom()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </div>
+
+        <div class="footer">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    <span>illacndmn@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 3c0-.55-.45-1-1-1H2c-.55 0-1 .45-1 1v18c0 .55.45 1 1 1h20c.55 0 1-.45 1-1V3zM12 15l-4-4h8l-4 4z"></path>
+                    </svg>
+                    <span><a href="https://x.com/leydinili?s=21&t=8BnypB6FJBYmkayKHVdsvA" target="_blank" style="color: white;">Twitter: @leydinili</a></span>
+                </div>
+            </div>
+            <p style="color: white; text-align: center; margin-top: 20px;">© All Rights Reserved 2025 - Dear Teddy AI</p>
+        </div>
+
+    <script>
+        function scrollToChat() {
+            document.getElementById('chat').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollToBottom() {
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function updateScrollButtonVisibility() {
+            const messagesContainer = document.getElementById('messages');
+            const scrollBottomButton = document.getElementById('scrollBottom');
+
+            const isScrolledUp = messagesContainer.scrollHeight - messagesContainer.scrollTop - messagesContainer.clientHeight > 100;
+
+            if (isScrolledUp) {
+                scrollBottomButton.classList.add('visible');
+            } else {
+                scrollBottomButton.classList.remove('visible');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.addEventListener('scroll', updateScrollButtonVisibility);
+            updateScrollButtonVisibility();
+        });
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const userText = input.value.trim();
+
+            if (!userText) return;
+
+            // Add user message to chat
+            addMessage(userText, 'user');
+            input.value = '';
+
+            try {
+                // Show loading state
+                const loadingMessage = 'Analyzing your message...';
+                addMessage(loadingMessage, 'system');
+
+                // Make the API call to your local endpoint
+                const response = await fetch('http://localhost:8000/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: userText })
+                });
+
+                // Remove loading message
+                const messagesContainer = document.getElementById('messages');
+                messagesContainer.removeChild(messagesContainer.lastChild);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status}`);
+                }
+
+                // Parse and render the API response
+                const data = await response.json();
+                renderAnalysis(data);
+
+            } catch (error) {
+                console.error('API Error:', error);
+                showError(error);
+            }
+        }
+
+        function renderAnalysis(data) {
+            const analysisHTML = `
+                <div class="emotion-summary">
+                    <h3>Analysis:</h3>
+                    <p><strong>Overall Emotional State:</strong>
+                       ${data.sentiment.label} (${(data.sentiment.score * 100).toFixed(1)}%)
+                    </p>
+                </div>
+
+                <div class="emotion-details">
+                    <h4>Detailed Emotional Profile:</h4>
+                    ${Object.entries(data.emotions).map(([emotion, score]) => `
+                        <div class="emotion-item">
+                            <div class="emotion-header">
+                                <span>${emotion}</span>
+                                <span>${(score * 100).toFixed(1)}%</span>
+                            </div>
+                            <div class="emotion-bar" style="width: ${score * 100}%"></div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="recommendation">
+                    <h4>I would recommend that...</h4>
+                    <ol>
+                        ${data.advice.map(a => `<li>${a}</li>`).join('')}
+                    </ol>
+                </div>
+            `;
+
+            addMessage(analysisHTML, 'system');
+        }
+
+        function addMessage(content, sender) {
+            const messagesContainer = document.getElementById('messages');
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+
+            const bubble = document.createElement('div');
+            bubble.className = `bubble ${sender}-bubble`;
+            bubble.innerHTML = content;
+
+            messageDiv.appendChild(bubble);
+            messagesContainer.appendChild(messageDiv);
+
+            // Auto scroll
+            setTimeout(() => {
+                scrollToBottom();
+                updateScrollButtonVisibility();
+            }, 100);
+        }
+
+        function handleEnter(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function showError(error) {
+            const errorHTML = `
+                <p>⚠️ Oh No! Error: ${error.message}</p>
+                <p>Please come back after I have won my battle with this error.</p>
+            `;
+            addMessage(errorHTML, 'system');
+        }
+    </script>
+</body>
+</html>
