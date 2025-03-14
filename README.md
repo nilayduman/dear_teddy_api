@@ -2,6 +2,8 @@
 
 A sentiment analysis, linguistic feature extraction, and context-aware recommendation system. It integrates GPT-2, DistilBERT, and RoBERTa models.
 
+Note: I used gpt2 (for money problem) but you must use 3 and latest version for better solutions.
+
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=flat&logo=PyTorch&logoColor=white)](https://pytorch.org/)
 
